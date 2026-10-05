@@ -1,0 +1,2170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Resource Intelligence — a practical studio for identifying, organizing, documenting, and understanding resources.">
+  <meta name="theme-color" content="#101412">
+  <title>Resource Intelligence — See What You Already Have</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      color-scheme: dark;
+
+      --bg: #101412;
+      --bg-soft: #151b18;
+      --surface: #1a211d;
+      --surface-2: #202a24;
+      --surface-3: #273229;
+      --ink: #f1f2e9;
+      --muted: #aeb8ae;
+      --dim: #7e8a81;
+
+      --lime: #c8ef75;
+      --lime-soft: #d9f6a0;
+      --lime-dark: #819e3e;
+      --cream: #e9e8d7;
+      --line: rgba(235, 241, 220, .12);
+      --line-strong: rgba(235, 241, 220, .22);
+
+      --radius-sm: 12px;
+      --radius-md: 20px;
+      --radius-lg: 32px;
+      --radius-xl: 44px;
+
+      --max: 1240px;
+      --ease: cubic-bezier(.2, .8, .2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 78% 8%, rgba(200, 239, 117, .09), transparent 28rem),
+        radial-gradient(circle at 10% 40%, rgba(126, 158, 62, .06), transparent 30rem),
+        var(--bg);
+      color: var(--ink);
+      font-family: "DM Sans", system-ui, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    ::selection {
+      background: var(--lime);
+      color: #101412;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    section {
+      scroll-margin-top: 100px;
+    }
+
+    .container {
+      width: min(calc(100% - 40px), var(--max));
+      margin-inline: auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--lime);
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, .7fr);
+      gap: 50px;
+      align-items: end;
+      margin-bottom: 60px;
+    }
+
+    .section-head h2 {
+      max-width: 760px;
+      margin-top: 18px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      font-weight: 500;
+      line-height: .98;
+      letter-spacing: -.055em;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      max-width: 480px;
+      font-size: 1rem;
+    }
+
+    /* Header */
+
+    .site-header {
+      position: fixed;
+      z-index: 100;
+      inset: 0 0 auto;
+      padding: 18px 0;
+      transition: background .35s ease, border-color .35s ease, padding .35s ease;
+    }
+
+    .site-header.scrolled {
+      padding: 12px 0;
+      background: rgba(16, 20, 18, .84);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 58px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -.02em;
+    }
+
+    .brand-mark {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--lime);
+      border-radius: 50%;
+      color: var(--lime);
+    }
+
+    .brand-mark::after {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--lime);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .nav-links a {
+      position: relative;
+      transition: color .25s ease;
+    }
+
+    .nav-links a::after {
+      position: absolute;
+      content: "";
+      left: 0;
+      bottom: -7px;
+      width: 100%;
+      height: 1px;
+      background: var(--lime);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform .3s var(--ease);
+    }
+
+    .nav-links a:hover {
+      color: var(--ink);
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 17px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      color: var(--ink);
+      font-size: .82rem;
+      transition: background .25s ease, color .25s ease, transform .25s ease;
+    }
+
+    .nav-cta:hover {
+      background: var(--lime);
+      color: #101412;
+      transform: translateY(-2px);
+    }
+
+    .menu-toggle {
+      display: none;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .menu-toggle svg {
+      width: 21px;
+      height: 21px;
+    }
+
+    /* Hero */
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      align-items: center;
+      padding: 150px 0 80px;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      opacity: .34;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(to bottom, black, transparent 80%);
+      pointer-events: none;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 8%;
+      right: -12%;
+      width: 55vw;
+      height: 55vw;
+      max-width: 750px;
+      max-height: 750px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200,239,117,.13), transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-layout {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1.12fr) minmax(320px, .88fr);
+      gap: clamp(50px, 8vw, 120px);
+      align-items: end;
+    }
+
+    .hero-copy {
+      max-width: 780px;
+    }
+
+    .hero h1 {
+      margin-top: 25px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(4rem, 9.2vw, 9.4rem);
+      font-weight: 500;
+      line-height: .82;
+      letter-spacing: -.075em;
+    }
+
+    .hero h1 em {
+      color: var(--lime);
+      font-style: normal;
+    }
+
+    .hero-description {
+      max-width: 630px;
+      margin-top: 35px;
+      color: var(--muted);
+      font-size: clamp(1rem, 1.7vw, 1.2rem);
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 36px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 50px;
+      padding: 0 20px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      font-size: .87rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform .25s var(--ease), background .25s ease, color .25s ease, border-color .25s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+    }
+
+    .button:active {
+      transform: translateY(0) scale(.98);
+    }
+
+    .button-primary {
+      background: var(--lime);
+      border-color: var(--lime);
+      color: #11150f;
+    }
+
+    .button-primary:hover {
+      background: var(--lime-soft);
+      border-color: var(--lime-soft);
+    }
+
+    .button-secondary {
+      background: rgba(255,255,255,.025);
+      color: var(--ink);
+    }
+
+    .button-secondary:hover {
+      background: var(--surface-2);
+      border-color: var(--line-strong);
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 510px;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      transform: rotate(1deg);
+      box-shadow: 0 40px 100px rgba(0,0,0,.25);
+    }
+
+    .hero-visual img {
+      width: 100%;
+      height: 100%;
+      min-height: 510px;
+      object-fit: cover;
+      filter: saturate(.7) contrast(1.05);
+      opacity: .8;
+    }
+
+    .visual-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, transparent 30%, rgba(16,20,18,.92)),
+        linear-gradient(90deg, rgba(16,20,18,.15), transparent);
+    }
+
+    .visual-note {
+      position: absolute;
+      right: 24px;
+      bottom: 24px;
+      left: 24px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .visual-note strong {
+      display: block;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.6rem;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .visual-note span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: .75rem;
+    }
+
+    .visual-index {
+      color: var(--lime);
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 2.8rem;
+      line-height: 1;
+    }
+
+    /* Ticker */
+
+    .ticker {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: ticker 30s linear infinite;
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 22px;
+      padding: 22px 30px;
+      color: var(--muted);
+      font-family: "Space Grotesk", sans-serif;
+      font-size: .82rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .ticker-item i {
+      color: var(--lime);
+      width: 13px;
+    }
+
+    @keyframes ticker {
+      to { transform: translateX(-50%); }
+    }
+
+    /* Intro */
+
+    .intro {
+      padding: 150px 0;
+    }
+
+    .intro-layout {
+      display: grid;
+      grid-template-columns: .72fr 1.28fr;
+      gap: 80px;
+    }
+
+    .intro-number {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(5rem, 12vw, 12rem);
+      line-height: .7;
+      color: var(--surface-3);
+      letter-spacing: -.09em;
+    }
+
+    .intro-content {
+      max-width: 800px;
+    }
+
+    .intro-content h2 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2.5rem, 5vw, 5.3rem);
+      font-weight: 500;
+      line-height: .98;
+      letter-spacing: -.055em;
+    }
+
+    .intro-content h2 span {
+      color: var(--lime);
+    }
+
+    .intro-content p {
+      max-width: 690px;
+      margin-top: 32px;
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin-top: 70px;
+      border: 1px solid var(--line);
+      background: var(--line);
+    }
+
+    .principle {
+      padding: 30px;
+      background: var(--bg);
+      min-height: 190px;
+    }
+
+    .principle-number {
+      color: var(--lime);
+      font-family: "Space Grotesk", sans-serif;
+      font-size: .75rem;
+    }
+
+    .principle h3 {
+      margin-top: 38px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.25rem;
+      font-weight: 500;
+    }
+
+    .principle p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.65;
+    }
+
+    /* Categories */
+
+    .categories {
+      padding: 80px 0 150px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .category-card {
+      position: relative;
+      min-height: 350px;
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: linear-gradient(145deg, var(--surface), rgba(26,33,29,.55));
+      overflow: hidden;
+      transition: transform .4s var(--ease), border-color .3s ease, background .3s ease;
+    }
+
+    .category-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(200,239,117,.35);
+      background: var(--surface-2);
+    }
+
+    .category-card.featured {
+      grid-column: span 2;
+      background:
+        linear-gradient(135deg, rgba(200,239,117,.08), transparent 55%),
+        var(--surface);
+    }
+
+    .category-icon {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--line-strong);
+      border-radius: 14px;
+      color: var(--lime);
+    }
+
+    .category-card h3 {
+      margin-top: 80px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.7rem;
+      font-weight: 500;
+      letter-spacing: -.03em;
+    }
+
+    .category-card p {
+      max-width: 440px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .category-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 22px;
+      list-style: none;
+    }
+
+    .category-list li {
+      padding: 5px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--dim);
+      font-size: .72rem;
+    }
+
+    /* Process */
+
+    .process {
+      padding: 150px 0;
+      background: var(--cream);
+      color: #151913;
+    }
+
+    .process .eyebrow {
+      color: #5f782e;
+    }
+
+    .process .section-head p {
+      color: #687066;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1px;
+      background: rgba(21,25,19,.15);
+      border: 1px solid rgba(21,25,19,.15);
+    }
+
+    .step {
+      position: relative;
+      min-height: 260px;
+      padding: 25px 20px;
+      background: var(--cream);
+      transition: background .3s ease;
+    }
+
+    .step:hover {
+      background: #dedfca;
+    }
+
+    .step-number {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #687066;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: .73rem;
+    }
+
+    .step-number i {
+      width: 16px;
+      height: 16px;
+    }
+
+    .step h3 {
+      margin-top: 100px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -.02em;
+    }
+
+    .step p {
+      margin-top: 8px;
+      color: #687066;
+      font-size: .78rem;
+      line-height: 1.55;
+    }
+
+    /* Photo break */
+
+    .photo-break {
+      padding: 0;
+    }
+
+    .photo-break-inner {
+      position: relative;
+      height: min(70vw, 680px);
+      min-height: 460px;
+      overflow: hidden;
+    }
+
+    .photo-break img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(.25) saturate(.65);
+    }
+
+    .photo-break-inner::after {
+      position: absolute;
+      content: "";
+      inset: 0;
+      background: linear-gradient(90deg, rgba(16,20,18,.82), rgba(16,20,18,.15), rgba(16,20,18,.7));
+    }
+
+    .photo-message {
+      position: absolute;
+      z-index: 2;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .photo-message h2 {
+      max-width: 950px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(3rem, 7vw, 7rem);
+      font-weight: 500;
+      line-height: .9;
+      letter-spacing: -.07em;
+    }
+
+    .photo-message h2 span {
+      color: var(--lime);
+    }
+
+    /* Products */
+
+    .offers {
+      padding: 150px 0;
+    }
+
+    .offer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .offer-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 500px;
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      transition: transform .4s var(--ease), border-color .3s ease;
+    }
+
+    .offer-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(200,239,117,.3);
+    }
+
+    .offer-card.highlight {
+      background: var(--lime);
+      color: #101412;
+      border-color: var(--lime);
+    }
+
+    .offer-tag {
+      display: inline-flex;
+      align-self: flex-start;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      font-size: .67rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .highlight .offer-tag {
+      background: rgba(16,20,18,.1);
+      color: #4e6125;
+    }
+
+    .offer-card h3 {
+      margin-top: 80px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 2rem;
+      font-weight: 500;
+      letter-spacing: -.04em;
+    }
+
+    .offer-card > p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .highlight > p {
+      color: #4e5c42;
+    }
+
+    .offer-features {
+      display: grid;
+      gap: 10px;
+      margin-top: 28px;
+      list-style: none;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .highlight .offer-features {
+      color: #4e5c42;
+    }
+
+    .offer-features li {
+      display: flex;
+      gap: 9px;
+      align-items: start;
+    }
+
+    .offer-features i {
+      flex: 0 0 auto;
+      width: 15px;
+      height: 15px;
+      margin-top: 3px;
+      color: var(--lime);
+    }
+
+    .highlight .offer-features i {
+      color: #3f551a;
+    }
+
+    .offer-card .button {
+      width: 100%;
+      margin-top: auto;
+    }
+
+    /* FAQ */
+
+    .faq {
+      padding: 20px 0 150px;
+    }
+
+    .faq-layout {
+      display: grid;
+      grid-template-columns: .65fr 1.35fr;
+      gap: 100px;
+    }
+
+    .faq-intro h2 {
+      margin-top: 18px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.8rem);
+      font-weight: 500;
+      line-height: .95;
+      letter-spacing: -.055em;
+    }
+
+    .faq-intro p {
+      margin-top: 25px;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .accordion {
+      border-top: 1px solid var(--line);
+    }
+
+    .accordion-item {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .accordion-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 25px 0;
+      background: transparent;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .accordion-trigger span {
+      padding-right: 30px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+    }
+
+    .accordion-trigger i {
+      flex: 0 0 auto;
+      transition: transform .35s var(--ease);
+    }
+
+    .accordion-item.open .accordion-trigger i {
+      transform: rotate(45deg);
+    }
+
+    .accordion-content {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows .4s var(--ease);
+    }
+
+    .accordion-content > div {
+      overflow: hidden;
+    }
+
+    .accordion-item.open .accordion-content {
+      grid-template-rows: 1fr;
+    }
+
+    .accordion-content p {
+      padding: 0 0 25px;
+      color: var(--muted);
+      font-size: .9rem;
+      max-width: 680px;
+    }
+
+    /* Contact */
+
+    .contact {
+      padding: 120px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .contact-shell {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 80px;
+      padding: clamp(30px, 6vw, 80px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background:
+        radial-gradient(circle at 90% 10%, rgba(200,239,117,.09), transparent 25rem),
+        var(--surface);
+    }
+
+    .contact-copy h2 {
+      margin-top: 20px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2.7rem, 5vw, 5.3rem);
+      font-weight: 500;
+      line-height: .94;
+      letter-spacing: -.06em;
+    }
+
+    .contact-copy h2 span {
+      color: var(--lime);
+    }
+
+    .contact-copy p {
+      margin-top: 25px;
+      color: var(--muted);
+      max-width: 470px;
+    }
+
+    .contact-details {
+      display: grid;
+      gap: 12px;
+      margin-top: 45px;
+      color: var(--muted);
+      font-size: .83rem;
+    }
+
+    .contact-details div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .contact-details i {
+      width: 16px;
+      color: var(--lime);
+    }
+
+    .contact-form {
+      display: grid;
+      gap: 17px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: .74rem;
+      font-weight: 600;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: rgba(255,255,255,.025);
+      color: var(--ink);
+      outline: none;
+      transition: border-color .25s ease, background .25s ease, box-shadow .25s ease;
+    }
+
+    .field input,
+    .field select {
+      height: 52px;
+      padding: 0 15px;
+    }
+
+    .field textarea {
+      min-height: 145px;
+      padding: 14px 15px;
+      resize: vertical;
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: #677168;
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--lime-dark);
+      background: rgba(200,239,117,.035);
+      box-shadow: 0 0 0 3px rgba(200,239,117,.08);
+    }
+
+    .select-wrap {
+      position: relative;
+    }
+
+    .select-wrap::after {
+      position: absolute;
+      content: "";
+      top: 50%;
+      right: 15px;
+      width: 8px;
+      height: 8px;
+      border-right: 1px solid var(--muted);
+      border-bottom: 1px solid var(--muted);
+      transform: translateY(-65%) rotate(45deg);
+      pointer-events: none;
+    }
+
+    select {
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      padding-right: 40px !important;
+    }
+
+    select option {
+      background: var(--surface);
+      color: var(--ink);
+    }
+
+    @supports (appearance: base-select) {
+      select,
+      ::picker(select) {
+        appearance: base-select;
+      }
+
+      select {
+        padding-inline: 15px !important;
+      }
+
+      ::picker(select) {
+        border: 1px solid var(--line-strong);
+        border-radius: 12px;
+        background: var(--surface-2);
+        color: var(--ink);
+        padding: 6px;
+      }
+
+      ::picker(select) option {
+        padding: 10px;
+        border-radius: 8px;
+      }
+
+      ::picker(select) option:hover,
+      ::picker(select) option:checked {
+        background: var(--surface-3);
+        color: var(--lime);
+      }
+    }
+
+    .form-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 3px;
+    }
+
+    .form-check input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .custom-check {
+      position: relative;
+      flex: 0 0 auto;
+      width: 19px;
+      height: 19px;
+      border: 1px solid var(--line-strong);
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background .2s ease, border-color .2s ease;
+    }
+
+    .custom-check::after {
+      position: absolute;
+      content: "";
+      left: 5px;
+      top: 2px;
+      width: 5px;
+      height: 9px;
+      border: solid #101412;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg) scale(0);
+      transition: transform .2s ease;
+    }
+
+    .form-check input:checked + .custom-check {
+      background: var(--lime);
+      border-color: var(--lime);
+    }
+
+    .form-check input:checked + .custom-check::after {
+      transform: rotate(45deg) scale(1);
+    }
+
+    .form-check input:focus-visible + .custom-check {
+      outline: 2px solid var(--lime);
+      outline-offset: 3px;
+    }
+
+    .form-check label {
+      color: var(--dim);
+      font-size: .73rem;
+      line-height: 1.5;
+      cursor: pointer;
+    }
+
+    .form-submit {
+      margin-top: 8px;
+    }
+
+    .form-status {
+      min-height: 22px;
+      color: var(--lime);
+      font-size: .78rem;
+    }
+
+    /* Footer */
+
+    footer {
+      padding: 35px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .footer-copy {
+      color: var(--dim);
+      font-size: .72rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 22px;
+      list-style: none;
+      color: var(--dim);
+      font-size: .72rem;
+    }
+
+    .footer-links a:hover {
+      color: var(--lime);
+    }
+
+    /* Reveal */
+
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
+
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .8s var(--ease), transform .8s var(--ease);
+    }
+
+    .js .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 { transition-delay: .08s !important; }
+    .delay-2 { transition-delay: .16s !important; }
+    .delay-3 { transition-delay: .24s !important; }
+
+    /* Accessibility */
+
+    :focus-visible {
+      outline: 2px solid var(--lime);
+      outline-offset: 4px;
+    }
+
+    .skip-link {
+      position: fixed;
+      z-index: 200;
+      left: 15px;
+      top: -100px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: var(--lime);
+      color: #101412;
+      font-size: .8rem;
+      font-weight: 700;
+    }
+
+    .skip-link:focus {
+      top: 15px;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 1000px) {
+      .hero-layout,
+      .intro-layout,
+      .faq-layout,
+      .contact-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        max-width: 650px;
+        min-height: 440px;
+        margin-left: auto;
+      }
+
+      .hero-visual img {
+        min-height: 440px;
+      }
+
+      .intro-number {
+        display: none;
+      }
+
+      .process-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .process .step:nth-child(3) {
+        border-right: 0;
+      }
+
+      .contact-shell {
+        gap: 55px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        width: min(calc(100% - 28px), var(--max));
+      }
+
+      .nav-links,
+      .nav-cta {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: grid;
+      }
+
+      .nav-links.mobile-open {
+        position: fixed;
+        z-index: 99;
+        inset: 77px 14px auto;
+        display: grid;
+        gap: 0;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: rgba(26,33,29,.97);
+        box-shadow: 0 30px 80px rgba(0,0,0,.4);
+        backdrop-filter: blur(20px);
+        animation: menuIn .35s var(--ease);
+      }
+
+      .nav-links.mobile-open li a {
+        display: block;
+        padding: 15px;
+        border-radius: 10px;
+      }
+
+      .nav-links.mobile-open li a:hover {
+        background: var(--surface-2);
+      }
+
+      .nav-links.mobile-open a::after {
+        display: none;
+      }
+
+      @keyframes menuIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px) scale(.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .hero {
+        padding-top: 130px;
+      }
+
+      .hero h1 {
+        font-size: clamp(3.5rem, 17vw, 6rem);
+      }
+
+      .hero-visual {
+        min-height: 380px;
+        transform: none;
+      }
+
+      .hero-visual img {
+        min-height: 380px;
+      }
+
+      .section-head {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-bottom: 40px;
+      }
+
+      .intro,
+      .categories,
+      .process,
+      .offers,
+      .faq {
+        padding-top: 100px;
+        padding-bottom: 100px;
+      }
+
+      .principles,
+      .category-grid,
+      .offer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .category-card.featured {
+        grid-column: auto;
+      }
+
+      .process-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .step {
+        min-height: 230px;
+      }
+
+      .step h3 {
+        margin-top: 70px;
+      }
+
+      .photo-break-inner {
+        min-height: 430px;
+      }
+
+      .photo-message h2 {
+        font-size: clamp(2.8rem, 13vw, 5rem);
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .contact {
+        padding: 80px 0;
+      }
+
+      .contact-shell {
+        border-radius: 25px;
+      }
+
+      .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-actions .button {
+        width: 100%;
+      }
+
+      .principles {
+        border: 0;
+        gap: 10px;
+        background: transparent;
+      }
+
+      .principle {
+        border: 1px solid var(--line);
+        border-radius: 15px;
+      }
+
+      .process-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .step {
+        min-height: 210px;
+      }
+
+      .step h3 {
+        margin-top: 55px;
+      }
+
+      .footer-links {
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+
+      .js .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav">
+      <a href="#top" class="brand" aria-label="Resource Intelligence home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Resource Intelligence</span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#approach">Approach</a></li>
+          <li><a href="#resources">Resources</a></li>
+          <li><a href="#offers">Solutions</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+
+      <a class="nav-cta" href="#contact">
+        Start a conversation
+        <i data-lucide="arrow-up-right" aria-hidden="true"></i>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="navLinks">
+        <i data-lucide="menu" aria-hidden="true"></i>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-glow" aria-hidden="true"></div>
+
+      <div class="container hero-layout">
+        <div class="hero-copy reveal">
+          <span class="eyebrow">A practical intelligence discipline</span>
+
+          <h1>
+            See what<br>
+            you already <em>have.</em>
+          </h1>
+
+          <p class="hero-description">
+            Resource Intelligence helps you identify, classify, document, and understand the resources already present around you — before you spend money looking for more.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#offers" class="button button-primary">
+              Explore the solutions
+              <i data-lucide="arrow-down" aria-hidden="true"></i>
+            </a>
+
+            <a href="#approach" class="button button-secondary">
+              Understand the method
+              <i data-lucide="move-down-right" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal delay-2">
+          <img
+            src="https://htmlhost.co/photo/portrait/light-through-an-organized-workspace"
+            alt="Light falling across an organized workspace"
+            loading="eager"
+          >
+          <div class="visual-overlay"></div>
+
+          <div class="visual-note">
+            <div>
+              <strong>Inventory before acquisition.</strong>
+              <span>Look closely. Document clearly. Decide intelligently.</span>
+            </div>
+            <span class="visual-index">01</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker" aria-label="Resource Intelligence principles">
+      <div class="ticker-track">
+        <div class="ticker-item">Observe <i data-lucide="plus" aria-hidden="true"></i></div>
+        <div class="ticker-item">Inventory <i data-lucide="plus" aria-hidden="true"></i></div>
+        <div class="ticker-item">Categorize <i data-lucide="plus" aria-hidden="true"></i></div>
+        <div class="ticker-item">Locate <i data-lucide="plus" aria-hidden="true"></i></div>
+        <div class="ticker-item">Document <i data-lucide="plus" aria-hidden="true"></i></div>
+        <div class="ticker-item">Verify <i data-lucide="plus" aria-hidden="true"></i></div>
+
+        <div class="ticker-item" aria-hidden="true">Observe <i data-lucide="plus"></i></div>
+        <div class="ticker-item" aria-hidden="true">Inventory <i data-lucide="plus"></i></div>
+        <div class="ticker-item" aria-hidden="true">Categorize <i data-lucide="plus"></i></div>
+        <div class="ticker-item" aria-hidden="true">Locate <i data-lucide="plus"></i></div>
+        <div class="ticker-item" aria-hidden="true">Document <i data-lucide="plus"></i></div>
+        <div class="ticker-item" aria-hidden="true">Verify <i data-lucide="plus"></i></div>
+      </div>
+    </div>
+
+    <section class="intro" id="approach">
+      <div class="container">
+        <div class="intro-layout">
+          <div class="intro-number reveal" aria-hidden="true">02</div>
+
+          <div class="intro-content reveal delay-1">
+            <span class="eyebrow">The idea</span>
+            <h2>
+              The first resource problem is often <span>visibility.</span>
+            </h2>
+            <p>
+              A business can own useful knowledge without documenting it. A community can have skilled people without knowing who they are. A household can have equipment that is rarely used. An organization can have information scattered across notebooks, phones, people, folders, and conversations.
+            </p>
+            <p>
+              Resource Intelligence creates a disciplined way to find those resources, describe them accurately, understand where they are, and establish what condition they are in. It is not simply a list of possessions. It is a structured view of what can contribute to a goal.
+            </p>
+          </div>
+        </div>
+
+        <div class="principles reveal">
+          <article class="principle">
+            <span class="principle-number">01 / SEE</span>
+            <h3>Look beyond objects.</h3>
+            <p>People, skills, time, relationships, information, space, tools, money, and knowledge can all be resources.</p>
+          </article>
+
+          <article class="principle">
+            <span class="principle-number">02 / STRUCTURE</span>
+            <h3>Turn observation into an inventory.</h3>
+            <p>A useful inventory gives resources names, categories, locations, descriptions, and availability states.</p>
+          </article>
+
+          <article class="principle">
+            <span class="principle-number">03 / DECIDE</span>
+            <h3>Understand before acquiring.</h3>
+            <p>Identification comes before improvement, acquisition, allocation, valuation, or replacement.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="categories" id="resources">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Resource landscape</span>
+            <h2>What counts as a resource?</h2>
+          </div>
+          <p>
+            Start broad. Resource identification becomes stronger when you deliberately look across physical, human, financial, technological, informational, and environmental dimensions.
+          </p>
+        </div>
+
+        <div class="category-grid">
+          <article class="category-card featured reveal">
+            <div class="category-icon">
+              <i data-lucide="users-round" aria-hidden="true"></i>
+            </div>
+            <h3>Human resources</h3>
+            <p>People can contribute much more than labor. Their skills, experience, relationships, judgment, availability, and local knowledge may be critical resources.</p>
+            <ul class="category-list">
+              <li>Skills</li>
+              <li>Experience</li>
+              <li>Volunteers</li>
+              <li>Expertise</li>
+              <li>Relationships</li>
+              <li>Local knowledge</li>
+            </ul>
+          </article>
+
+          <article class="category-card reveal delay-1">
+            <div class="category-icon">
+              <i data-lucide="package" aria-hidden="true"></i>
+            </div>
+            <h3>Physical</h3>
+            <p>Buildings, furniture, equipment, tools, vehicles, books, materials, land, and other tangible assets.</p>
+            <ul class="category-list">
+              <li>Equipment</li>
+              <li>Furniture</li>
+              <li>Buildings</li>
+            </ul>
+          </article>
+
+          <article class="category-card reveal delay-2">
+            <div class="category-icon">
+              <i data-lucide="wallet-cards" aria-hidden="true"></i>
+            </div>
+            <h3>Financial</h3>
+            <p>Funds and financial capacity that can support an activity, project, service, or operational requirement.</p>
+            <ul class="category-list">
+              <li>Cash</li>
+              <li>Funds</li>
+              <li>Credit</li>
+            </ul>
+          </article>
+
+          <article class="category-card reveal">
+            <div class="category-icon">
+              <i data-lucide="cpu" aria-hidden="true"></i>
+            </div>
+            <h3>Technological</h3>
+            <p>Devices, connectivity, software, digital infrastructure, power systems, and technical capabilities.</p>
+            <ul class="category-list">
+              <li>Computers</li>
+              <li>Internet</li>
+              <li>Software</li>
+            </ul>
+          </article>
+
+          <article class="category-card reveal delay-1">
+            <div class="category-icon">
+              <i data-lucide="database" aria-hidden="true"></i>
+            </div>
+            <h3>Informational</h3>
+            <p>Records, documents, datasets, institutional knowledge, procedures, research, contacts, and useful intelligence.</p>
+            <ul class="category-list">
+              <li>Records</li>
+              <li>Data</li>
+              <li>Knowledge</li>
+            </ul>
+          </article>
+
+          <article class="category-card reveal delay-2">
+            <div class="category-icon">
+              <i data-lucide="trees" aria-hidden="true"></i>
+            </div>
+            <h3>Environmental</h3>
+            <p>Land, water, natural surroundings, transportation access, community spaces, and other environmental conditions.</p>
+            <ul class="category-list">
+              <li>Land</li>
+              <li>Water</li>
+              <li>Space</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="process" aria-labelledby="process-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">The method</span>
+            <h2 id="process-title">Six moves from scattered to visible.</h2>
+          </div>
+          <p>
+            The process is deliberately practical. It can begin with a phone, a simple table, and a clear question: what resources are already available?
+          </p>
+        </div>
+
+        <div class="process-grid">
+          <article class="step reveal">
+            <div class="step-number">
+              <span>01</span>
+              <i data-lucide="eye" aria-hidden="true"></i>
+            </div>
+            <h3>Observe</h3>
+            <p>Look at the environment without immediately judging or buying.</p>
+          </article>
+
+          <article class="step reveal delay-1">
+            <div class="step-number">
+              <span>02</span>
+              <i data-lucide="clipboard-list" aria-hidden="true"></i>
+            </div>
+            <h3>Inventory</h3>
+            <p>Create a clear record of what appears to be available.</p>
+          </article>
+
+          <article class="step reveal delay-2">
+            <div class="step-number">
+              <span>03</span>
+              <i data-lucide="layers-3" aria-hidden="true"></i>
+            </div>
+            <h3>Categorize</h3>
+            <p>Group resources so patterns and gaps become easier to see.</p>
+          </article>
+
+          <article class="step reveal">
+            <div class="step-number">
+              <span>04</span>
+              <i data-lucide="map-pin" aria-hidden="true"></i>
+            </div>
+            <h3>Locate</h3>
+            <p>Record where each resource can actually be found or accessed.</p>
+          </article>
+
+          <article class="step reveal delay-1">
+            <div class="step-number">
+              <span>05</span>
+              <i data-lucide="file-text" aria-hidden="true"></i>
+            </div>
+            <h3>Document</h3>
+            <p>Give each resource enough detail to make the record useful.</p>
+          </article>
+
+          <article class="step reveal delay-2">
+            <div class="step-number">
+              <span>06</span>
+              <i data-lucide="badge-check" aria-hidden="true"></i>
+            </div>
+            <h3>Verify</h3>
+            <p>Confirm that the resource exists, is accessible, and matches the record.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="photo-break" aria-label="Resource identification perspective">
+      <div class="photo-break-inner">
+        <img
+          src="https://htmlhost.co/photo/landscape/tools-on-a-wooden-table"
+          alt="Tools arranged on a wooden table"
+          loading="lazy"
+        >
+        <div class="photo-message">
+          <h2>
+            Don't ask only<br>
+            <span>"What do we need?"</span><br>
+            Ask what exists.
+          </h2>
+        </div>
+      </div>
+    </section>
+
+    <section class="offers" id="offers">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">Practical solutions</span>
+            <h2>Tools for turning observation into action.</h2>
+          </div>
+          <p>
+            Structured resources designed to make resource identification understandable, repeatable, and useful across different settings.
+          </p>
+        </div>
+
+        <div class="offer-grid">
+          <article class="offer-card reveal">
+            <span class="offer-tag">Foundation</span>
+            <h3>Resource Identification Guide</h3>
+            <p>A practical guide for identifying and organizing resources in a household, project, organization, community, or other setting.</p>
+
+            <ul class="offer-features">
+              <li><i data-lucide="check" aria-hidden="true"></i> Resource categories and examples</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Identification questions</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Inventory structure</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Availability classification</li>
+            </ul>
+
+            <a href="#contact" class="button button-secondary">
+              Ask about the guide
+              <i data-lucide="arrow-up-right" aria-hidden="true"></i>
+            </a>
+          </article>
+
+          <article class="offer-card highlight reveal delay-1">
+            <span class="offer-tag">Most useful starting point</span>
+            <h3>Resource Inventory Framework</h3>
+            <p>A structured framework for recording resources consistently and making the resulting information easier to review and use.</p>
+
+            <ul class="offer-features">
+              <li><i data-lucide="check" aria-hidden="true"></i> Resource register structure</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Classification fields</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Availability status</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Identification workflow</li>
+            </ul>
+
+            <a href="#contact" class="button" style="background:#101412;color:#f1f2e9;border-color:#101412;">
+              Start with the framework
+              <i data-lucide="arrow-up-right" aria-hidden="true"></i>
+            </a>
+          </article>
+
+          <article class="offer-card reveal delay-2">
+            <span class="offer-tag">Custom</span>
+            <h3>Resource Assessment Profile</h3>
+            <p>A tailored resource-identification structure for a defined activity, project, organization, community, or operational situation.</p>
+
+            <ul class="offer-features">
+              <li><i data-lucide="check" aria-hidden="true"></i> Defined assessment scope</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Resource categories</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Availability review</li>
+              <li><i data-lucide="check" aria-hidden="true"></i> Findings structure</li>
+            </ul>
+
+            <a href="#contact" class="button button-secondary">
+              Discuss an assessment
+              <i data-lucide="arrow-up-right" aria-hidden="true"></i>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq" id="faq">
+      <div class="container faq-layout">
+        <div class="faq-intro reveal">
+          <span class="eyebrow">Questions</span>
+          <h2>Start with the right distinction.</h2>
+          <p>
+            Resource identification is the beginning of the process. It answers what exists and what is available before later decisions are made.
+          </p>
+        </div>
+
+        <div class="accordion reveal delay-1">
+          <div class="accordion-item open">
+            <button class="accordion-trigger" type="button" aria-expanded="true">
+              <span>Is Resource Intelligence the same as asset valuation?</span>
+              <i data-lucide="plus" aria-hidden="true"></i>
+            </button>
+            <div class="accordion-content">
+              <div>
+                <p>
+                  No. Resource identification focuses first on discovering and documenting what resources exist and whether they are available. Valuation is a later question concerning worth, price, or economic value.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false">
+              <span>Can people and knowledge really be recorded as resources?</span>
+              <i data-lucide="plus" aria-hidden="true"></i>
+            </button>
+            <div class="accordion-content">
+              <div>
+                <p>
+                  Yes. A useful resource inventory can include skills, experience, expertise, relationships, institutional knowledge, information, time, and problem-solving ability. The important part is documenting them clearly enough to establish how they can contribute.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false">
+              <span>What does "available" actually mean?</span>
+              <i data-lucide="plus" aria-hidden="true"></i>
+            </button>
+            <div class="accordion-content">
+              <div>
+                <p>
+                  Availability depends on the purpose and context. A resource can be readily available, available but needing improvement, or currently unavailable. A resource may exist but still be difficult to access, unsuitable, damaged, undocumented, or restricted.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false">
+              <span>Can the method be used outside a business?</span>
+              <i data-lucide="plus" aria-hidden="true"></i>
+            </button>
+            <div class="accordion-content">
+              <div>
+                <p>
+                  Yes. The same thinking can be applied to households, learning projects, community initiatives, nonprofits, schools, creative projects, small businesses, and many other situations where knowing what is already available matters.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false">
+              <span>Do I need specialized software to begin?</span>
+              <i data-lucide="plus" aria-hidden="true"></i>
+            </button>
+            <div class="accordion-content">
+              <div>
+                <p>
+                  No. The discipline begins with observation and structured documentation. A phone, notebook, document, or spreadsheet can be enough to start building a useful resource inventory.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="contact-shell reveal">
+          <div class="contact-copy">
+            <span class="eyebrow">Let's identify what exists</span>
+            <h2>Have a resource question? <span>Let's map it.</span></h2>
+            <p>
+              Tell me what you are trying to understand, organize, or prepare for. A clear starting point makes it easier to determine what kind of resource-identification solution fits.
+            </p>
+
+            <div class="contact-details">
+              <div>
+                <i data-lucide="scan-search" aria-hidden="true"></i>
+                <span>Identify what is already present.</span>
+              </div>
+              <div>
+                <i data-lucide="list-checks" aria-hidden="true"></i>
+                <span>Organize it into a usable inventory.</span>
+              </div>
+              <div>
+                <i data-lucide="route" aria-hidden="true"></i>
+                <span>Clarify the next practical step.</span>
+              </div>
+            </div>
+          </div>
+
+          <form class="contact-form" action="/__hh/form" method="post">
+            <input type="hidden" name="_form" value="Contact">
+
+            <div class="form-row">
+              <div class="field">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" autocomplete="name" placeholder="Your name" required>
+              </div>
+
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="interest">What are you interested in?</label>
+              <div class="select-wrap">
+                <select id="interest" name="interest" required>
+                  <option value="" selected disabled>Select an option</option>
+                  <option value="resource-identification-guide">Resource Identification Guide</option>
+                  <option value="resource-inventory-framework">Resource Inventory Framework</option>
+                  <option value="resource-assessment-profile">Resource Assessment Profile</option>
+                  <option value="general-question">General question</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="context">Tell me about your situation</label>
+              <textarea id="context" name="context" placeholder="What are you trying to identify, organize, or understand?" required></textarea>
+            </div>
+
+            <div class="form-check">
+              <input id="permission" name="permission" type="checkbox" value="yes" required>
+              <label class="custom-check" for="permission" aria-hidden="true"></label>
+              <label for="permission">I agree to be contacted regarding this enquiry.</label>
+            </div>
+
+            <button class="button button-primary form-submit" type="submit">
+              Send enquiry
+              <i data-lucide="send" aria-hidden="true"></i>
+            </button>
+
+            <div class="form-status" id="formStatus" aria-live="polite"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-copy">
+        © <span id="year"></span> Resource Intelligence. Identify first. Decide better.
+      </p>
+
+      <ul class="footer-links">
+        <li><a href="#top">Back to top</a></li>
+        <li><a href="#approach">Approach</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    document.documentElement.classList.add("js");
+
+    // Lucide icons
+    lucide.createIcons();
+
+    // Header state
+    const header = document.getElementById("siteHeader");
+
+    const updateHeader = () => {
+      header.classList.toggle("scrolled", window.scrollY > 20);
+    };
+
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
+
+    // Mobile menu
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("mobile-open");
+
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+
+      menuToggle.innerHTML = isOpen
+        ? '<i data-lucide="x" aria-hidden="true"></i>'
+        : '<i data-lucide="menu" aria-hidden="true"></i>';
+
+      lucide.createIcons();
+      document.body.classList.toggle("menu-open", isOpen);
+    });
+
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("mobile-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open navigation");
+        menuToggle.innerHTML = '<i data-lucide="menu" aria-hidden="true"></i>';
+        document.body.classList.remove("menu-open");
+        lucide.createIcons();
+      });
+    });
+
+    // Scroll reveal
+    const revealElements = document.querySelectorAll(".reveal");
+
+    if ("IntersectionObserver" in window) {
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: "0px 0px -40px 0px"
+      });
+
+      revealElements.forEach(element => revealObserver.observe(element));
+    } else {
+      revealElements.forEach(element => element.classList.add("visible"));
+    }
+
+    // Accordion
+    document.querySelectorAll(".accordion-trigger").forEach(trigger => {
+      trigger.addEventListener("click", () => {
+        const item = trigger.closest(".accordion-item");
+        const isOpen = item.classList.contains("open");
+
+        document.querySelectorAll(".accordion-item").forEach(other => {
+          other.classList.remove("open");
+          other.querySelector(".accordion-trigger").setAttribute("aria-expanded", "false");
+        });
+
+        if (!isOpen) {
+          item.classList.add("open");
+          trigger.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+
+    // Form feedback
+    const contactForm = document.querySelector(".contact-form");
+    const formStatus = document.getElementById("formStatus");
+
+    contactForm.addEventListener("submit", () => {
+      formStatus.textContent = "Your enquiry is being sent.";
+    });
+
+    // Current year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Small parallax effect for the hero image, disabled for reduced motion
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const heroVisual = document.querySelector(".hero-visual");
+
+      window.addEventListener("scroll", () => {
+        const amount = Math.min(window.scrollY * 0.035, 28);
+        heroVisual.style.transform = `rotate(1deg) translateY(${amount}px)`;
+      }, { passive: true });
+    }
+  </script>
+</body>
+</html>
