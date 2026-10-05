@@ -1,0 +1,3406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Business Computing Assessment — assess your business operations, upload existing records, calculate key figures and identify areas requiring digital improvement.">
+<meta name="theme-color" content="#07111f">
+
+<title>Business Computing Assessment</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --dark:#07111f;
+  --dark2:#0c1b2e;
+  --dark3:#12243b;
+  --white:#ffffff;
+  --bg:#f4f7fb;
+  --card:#ffffff;
+  --text:#0c1726;
+  --muted:#68778a;
+  --line:#dce4ee;
+  --accent:#63e6d5;
+  --accent2:#22b8aa;
+  --blue:#6585ff;
+  --danger:#e96b78;
+  --warning:#e5a83c;
+  --success:#35b982;
+  --shadow:0 20px 60px rgba(7,17,31,.09);
+  --radius:22px;
+  --max:1180px;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:"DM Sans",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.container{
+  width:min(calc(100% - 32px),var(--max));
+  margin:auto;
+}
+
+h1,h2,h3,h4{
+  font-family:"Manrope",sans-serif;
+  letter-spacing:-.04em;
+  line-height:1.1;
+}
+
+/* =========================
+NAV
+========================= */
+
+.nav{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(7,17,31,.94);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.nav-inner{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  color:white;
+  font-family:"Manrope";
+  font-weight:800;
+}
+
+.logo-mark{
+  width:36px;
+  height:36px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  background:var(--accent);
+  color:var(--dark);
+  font-size:.78rem;
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:25px;
+  color:#dce5f1;
+  font-size:.88rem;
+  font-weight:600;
+}
+
+.nav-links a:hover{
+  color:var(--accent);
+}
+
+.nav-button{
+  background:var(--accent);
+  color:var(--dark)!important;
+  padding:10px 16px;
+  border-radius:10px;
+}
+
+.menu{
+  display:none;
+  width:42px;
+  height:42px;
+  border:1px solid rgba(255,255,255,.15);
+  background:transparent;
+  color:white;
+  border-radius:10px;
+}
+
+/* =========================
+HERO
+========================= */
+
+.hero{
+  background:
+    radial-gradient(circle at 85% 15%,rgba(99,230,213,.16),transparent 30%),
+    radial-gradient(circle at 10% 90%,rgba(101,133,255,.13),transparent 30%),
+    var(--dark);
+  color:white;
+  padding:100px 0 80px;
+  overflow:hidden;
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:70px;
+  align-items:center;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:var(--accent);
+  background:rgba(99,230,213,.08);
+  border:1px solid rgba(99,230,213,.2);
+  border-radius:100px;
+  padding:7px 12px;
+  font-size:.73rem;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  margin-bottom:22px;
+}
+
+.dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--accent);
+}
+
+.hero h1{
+  font-size:clamp(3rem,6vw,5.8rem);
+  max-width:800px;
+}
+
+.hero h1 span{
+  color:var(--accent);
+}
+
+.hero-copy{
+  max-width:670px;
+  color:#aebdce;
+  font-size:1.05rem;
+  margin:25px 0 30px;
+}
+
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.btn{
+  border:0;
+  min-height:48px;
+  padding:12px 18px;
+  border-radius:11px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-weight:800;
+  transition:.2s ease;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+}
+
+.primary{
+  background:var(--accent);
+  color:var(--dark);
+}
+
+.secondary{
+  background:rgba(255,255,255,.06);
+  color:white;
+  border:1px solid rgba(255,255,255,.14);
+}
+
+.hero-panel{
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:24px;
+  padding:25px;
+}
+
+.hero-panel-title{
+  color:#91a1b5;
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  font-weight:800;
+  margin-bottom:18px;
+}
+
+.live-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:15px 0;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.live-row:last-child{
+  border-bottom:0;
+}
+
+.live-name{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:#dce5ef;
+}
+
+.live-icon{
+  width:34px;
+  height:34px;
+  border-radius:9px;
+  display:grid;
+  place-items:center;
+  background:rgba(99,230,213,.08);
+  color:var(--accent);
+}
+
+.live-status{
+  color:#8fa1b6;
+  font-size:.78rem;
+}
+
+/* =========================
+APP
+========================= */
+
+.app{
+  padding:70px 0 110px;
+}
+
+.app-layout{
+  display:grid;
+  grid-template-columns:270px 1fr;
+  gap:25px;
+  align-items:start;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  position:sticky;
+  top:95px;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:18px;
+}
+
+.sidebar-title{
+  font-family:"Manrope";
+  font-weight:800;
+  margin-bottom:15px;
+}
+
+.step{
+  width:100%;
+  border:0;
+  background:transparent;
+  text-align:left;
+  padding:12px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  margin-bottom:4px;
+  color:var(--muted);
+}
+
+.step:hover{
+  background:#f1f5f9;
+}
+
+.step.active{
+  background:var(--dark);
+  color:white;
+}
+
+.step-number{
+  width:28px;
+  height:28px;
+  border-radius:8px;
+  display:grid;
+  place-items:center;
+  background:#edf1f5;
+  color:var(--text);
+  font-size:.73rem;
+  font-weight:800;
+  flex-shrink:0;
+}
+
+.step.active .step-number{
+  background:var(--accent);
+}
+
+.step.done .step-number{
+  background:var(--success);
+  color:white;
+}
+
+.step-text strong{
+  display:block;
+  font-size:.82rem;
+}
+
+.step-text span{
+  display:block;
+  font-size:.68rem;
+  opacity:.7;
+}
+
+.progress{
+  margin-top:20px;
+  padding-top:18px;
+  border-top:1px solid var(--line);
+}
+
+.progress-label{
+  display:flex;
+  justify-content:space-between;
+  font-size:.72rem;
+  color:var(--muted);
+  margin-bottom:7px;
+}
+
+.progress-bar{
+  height:7px;
+  background:#edf1f5;
+  border-radius:100px;
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+  width:0%;
+  background:var(--accent2);
+  transition:.3s ease;
+}
+
+/* FORM AREA */
+
+.form-area{
+  min-width:0;
+}
+
+.form-card{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:25px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.form-head{
+  padding:30px;
+  border-bottom:1px solid var(--line);
+}
+
+.form-head .kicker{
+  color:var(--accent2);
+  font-size:.7rem;
+  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:.1em;
+  margin-bottom:9px;
+}
+
+.form-head h2{
+  font-size:clamp(1.8rem,4vw,2.7rem);
+}
+
+.form-head p{
+  color:var(--muted);
+  margin-top:9px;
+  max-width:700px;
+}
+
+.form-body{
+  padding:30px;
+}
+
+.category{
+  display:none;
+}
+
+.category.active{
+  display:block;
+}
+
+.category-title{
+  margin-bottom:24px;
+}
+
+.category-title h3{
+  font-size:1.45rem;
+}
+
+.category-title p{
+  color:var(--muted);
+  font-size:.88rem;
+  margin-top:6px;
+}
+
+/* INPUTS */
+
+.field-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  font-size:.77rem;
+  font-weight:800;
+}
+
+.field small{
+  color:var(--muted);
+  font-size:.7rem;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  min-height:47px;
+  border:1px solid var(--line);
+  background:white;
+  color:var(--text);
+  border-radius:11px;
+  padding:11px 13px;
+  outline:none;
+  transition:.2s;
+}
+
+.field textarea{
+  min-height:110px;
+  resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--accent2);
+  box-shadow:0 0 0 3px rgba(34,184,170,.1);
+}
+
+/* CHECKBOXES */
+
+.checkbox-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.check{
+  position:relative;
+}
+
+.check input{
+  position:absolute;
+  opacity:0;
+}
+
+.check label{
+  display:block;
+  padding:12px 13px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  cursor:pointer;
+  font-size:.82rem;
+  font-weight:600;
+}
+
+.check input:checked + label{
+  border-color:var(--accent2);
+  background:#effbf8;
+  color:#087d72;
+}
+
+/* CALCULATOR */
+
+.calculator{
+  background:#f6f8fb;
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:20px;
+  margin-top:25px;
+}
+
+.calculator-head{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  align-items:center;
+  margin-bottom:17px;
+}
+
+.calculator-head h4{
+  font-size:1rem;
+}
+
+.calculator-result{
+  font-family:"Manrope";
+  font-size:1.8rem;
+  font-weight:800;
+}
+
+.calc-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.calc-output{
+  margin-top:17px;
+  padding-top:17px;
+  border-top:1px solid var(--line);
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.output-box{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:11px;
+  padding:13px;
+}
+
+.output-box span{
+  display:block;
+  font-size:.68rem;
+  color:var(--muted);
+}
+
+.output-box strong{
+  display:block;
+  margin-top:4px;
+}
+
+/* UPLOAD */
+
+.upload{
+  border:1.5px dashed #b9c6d6;
+  border-radius:17px;
+  padding:30px;
+  text-align:center;
+  background:#fafbfd;
+  transition:.2s;
+}
+
+.upload.dragover{
+  border-color:var(--accent2);
+  background:#effbf8;
+}
+
+.upload-icon{
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  margin:0 auto 12px;
+  border-radius:14px;
+  background:var(--dark);
+  color:var(--accent);
+  font-size:1.2rem;
+}
+
+.upload h4{
+  font-size:1rem;
+}
+
+.upload p{
+  color:var(--muted);
+  font-size:.78rem;
+  margin:5px 0 14px;
+}
+
+.file-input{
+  display:none;
+}
+
+.upload-button{
+  display:inline-flex;
+  background:var(--dark);
+  color:white;
+  border-radius:9px;
+  padding:9px 13px;
+  font-size:.78rem;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.file-list{
+  margin-top:15px;
+  display:grid;
+  gap:7px;
+}
+
+.file-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:9px;
+  padding:9px 11px;
+  font-size:.75rem;
+}
+
+.file-remove{
+  border:0;
+  background:transparent;
+  color:var(--danger);
+  font-weight:800;
+}
+
+/* FORM FOOTER */
+
+.form-footer{
+  padding:22px 30px;
+  background:#f8fafc;
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.back-btn{
+  background:white;
+  border:1px solid var(--line);
+  color:var(--text);
+}
+
+.next-btn{
+  background:var(--dark);
+  color:white;
+}
+
+.submit-btn{
+  background:var(--accent2);
+  color:white;
+}
+
+/* =========================
+RESULT
+========================= */
+
+.result-section{
+  display:none;
+  padding:0 0 100px;
+}
+
+.result-section.show{
+  display:block;
+}
+
+.result{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:25px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+
+.result-head{
+  padding:40px;
+  background:var(--dark);
+  color:white;
+}
+
+.result-head .kicker{
+  color:var(--accent);
+  text-transform:uppercase;
+  font-size:.7rem;
+  font-weight:800;
+  letter-spacing:.1em;
+}
+
+.result-head h2{
+  font-size:clamp(2rem,5vw,3.4rem);
+  margin:10px 0;
+}
+
+.result-head p{
+  color:#aebdce;
+  max-width:700px;
+}
+
+.score-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-bottom:1px solid var(--line);
+}
+
+.score{
+  padding:22px;
+  border-right:1px solid var(--line);
+}
+
+.score:last-child{
+  border-right:0;
+}
+
+.score span{
+  display:block;
+  color:var(--muted);
+  font-size:.7rem;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+}
+
+.score strong{
+  display:block;
+  font-family:"Manrope";
+  font-size:1.5rem;
+  margin-top:5px;
+}
+
+.result-body{
+  padding:35px;
+}
+
+.result-columns{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
+}
+
+.result-box{
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:22px;
+}
+
+.result-box h3{
+  font-size:1.05rem;
+  margin-bottom:15px;
+}
+
+.priority{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.priority:last-child{
+  border-bottom:0;
+}
+
+.priority-name{
+  font-size:.84rem;
+  font-weight:700;
+}
+
+.badge{
+  padding:5px 8px;
+  border-radius:7px;
+  font-size:.65rem;
+  font-weight:800;
+}
+
+.high{
+  background:#fff0f1;
+  color:#c94c59;
+}
+
+.medium{
+  background:#fff7e5;
+  color:#a87113;
+}
+
+.low{
+  background:#eaf9f3;
+  color:#22845e;
+}
+
+.report-actions{
+  margin-top:25px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+/* =========================
+FOOTER
+========================= */
+
+footer{
+  background:var(--dark);
+  color:white;
+  padding:55px 0 25px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr;
+  gap:40px;
+  padding-bottom:35px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.footer-grid p,
+.footer-grid a{
+  color:#8796aa;
+  font-size:.82rem;
+}
+
+.footer-grid h4{
+  margin-bottom:12px;
+}
+
+.footer-links{
+  display:grid;
+  gap:7px;
+}
+
+.copyright{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  color:#65758a;
+  font-size:.7rem;
+  padding-top:20px;
+}
+
+/* =========================
+TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:var(--dark);
+  color:white;
+  padding:13px 17px;
+  border-radius:11px;
+  box-shadow:var(--shadow);
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(15px);
+  transition:.25s;
+  z-index:2000;
+  font-size:.8rem;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* =========================
+RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+  .hero-grid{
+    grid-template-columns:1fr;
+  }
+
+  .app-layout{
+    grid-template-columns:1fr;
+  }
+
+  .sidebar{
+    position:static;
+    overflow-x:auto;
+  }
+
+  .sidebar-title,
+  .progress{
+    display:none;
+  }
+
+  .step{
+    min-width:210px;
+    display:inline-flex;
+  }
+
+  .nav-links{
+    display:none;
+    position:absolute;
+    top:72px;
+    left:16px;
+    right:16px;
+    padding:15px;
+    background:var(--dark2);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:15px;
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .nav-links.active{
+    display:flex;
+  }
+
+  .nav-links a{
+    padding:10px;
+  }
+
+  .menu{
+    display:block;
+  }
+
+  .score-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .score:nth-child(2){
+    border-right:0;
+  }
+
+  .result-columns{
+    grid-template-columns:1fr;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(max-width:600px){
+
+  .container{
+    width:min(calc(100% - 24px),var(--max));
+  }
+
+  .hero{
+    padding:75px 0;
+  }
+
+  .hero h1{
+    font-size:3rem;
+  }
+
+  .hero-actions{
+    flex-direction:column;
+  }
+
+  .hero-actions .btn{
+    width:100%;
+  }
+
+  .field-grid,
+  .checkbox-grid,
+  .calc-row{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .form-head,
+  .form-body,
+  .result-body{
+    padding:22px;
+  }
+
+  .form-footer{
+    padding:18px;
+  }
+
+  .calc-output{
+    grid-template-columns:1fr;
+  }
+
+  .score-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .score{
+    border-bottom:1px solid var(--line);
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .copyright{
+    flex-direction:column;
+  }
+
+}
+
+@media print{
+
+  .nav,
+  .hero,
+  .app,
+  footer,
+  .report-actions{
+    display:none!important;
+  }
+
+  .result-section{
+    display:block!important;
+    padding:0;
+  }
+
+  body{
+    background:white;
+  }
+
+  .result{
+    box-shadow:none;
+    border:0;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+NAVIGATION
+========================= -->
+
+<header class="nav">
+
+  <div class="container nav-inner">
+
+    <a href="#" class="logo">
+      <span class="logo-mark">BC</span>
+      <span>Business Computing Assessment</span>
+    </a>
+
+    <button class="menu" id="menuButton" aria-label="Open menu">
+      ☰
+    </button>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#assessment">Assessment</a>
+      <a href="#documents">Documents</a>
+      <a href="#calculator">Calculator</a>
+      <a href="#results">Results</a>
+      <a href="#assessment" class="nav-button">Start Assessment</a>
+    </nav>
+
+  </div>
+
+</header>
+
+
+<!-- =========================
+HERO
+========================= -->
+
+<section class="hero">
+
+  <div class="container hero-grid">
+
+    <div>
+
+      <div class="eyebrow">
+        <span class="dot"></span>
+        Digital Business Assessment
+      </div>
+
+      <h1>
+        Understand your business
+        <span>before you change it.</span>
+      </h1>
+
+      <p class="hero-copy">
+        Complete your business profile, document how your operations currently
+        work, upload existing records and calculate important figures.
+        Your information is brought together into one business assessment.
+      </p>
+
+      <div class="hero-actions">
+
+        <a href="#assessment" class="btn primary">
+          Start My Assessment →
+        </a>
+
+        <a href="#calculator" class="btn secondary">
+          Use Calculator
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="hero-panel">
+
+      <div class="hero-panel-title">
+        Your assessment workspace
+      </div>
+
+      <div class="live-row">
+        <div class="live-name">
+          <span class="live-icon">01</span>
+          Business Profile
+        </div>
+        <span class="live-status">Required</span>
+      </div>
+
+      <div class="live-row">
+        <div class="live-name">
+          <span class="live-icon">02</span>
+          Operations
+        </div>
+        <span class="live-status">10 areas</span>
+      </div>
+
+      <div class="live-row">
+        <div class="live-name">
+          <span class="live-icon">03</span>
+          Calculations
+        </div>
+        <span class="live-status">Live</span>
+      </div>
+
+      <div class="live-row">
+        <div class="live-name">
+          <span class="live-icon">04</span>
+          Documents
+        </div>
+        <span class="live-status">Upload</span>
+      </div>
+
+      <div class="live-row">
+        <div class="live-name">
+          <span class="live-icon">05</span>
+          Assessment Report
+        </div>
+        <span class="live-status">Generated</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+ASSESSMENT APPLICATION
+========================= -->
+
+<section class="app" id="assessment">
+
+  <div class="container app-layout">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+      <div class="sidebar-title">
+        Assessment
+      </div>
+
+      <button class="step active" data-step="0">
+        <span class="step-number">1</span>
+        <span class="step-text">
+          <strong>Business Profile</strong>
+          <span>About your business</span>
+        </span>
+      </button>
+
+      <button class="step" data-step="1">
+        <span class="step-number">2</span>
+        <span class="step-text">
+          <strong>Orders</strong>
+          <span>Customer orders</span>
+        </span>
+      </button>
+
+      <button class="step" data-step="2">
+        <span class="step-number">3</span>
+        <span class="step-text">
+          <strong>Customers</strong>
+          <span>Customer information</span>
+        </span>
+      </button>
+
+      <button class="step" data-step="3">
+        <span class="step-number">4</span>
+        <span class="step-text">
+          <strong>Inventory</strong>
+          <span>Stock control</span>
+        </span>
+      </button>
+
+      <button class="step" data-step="4">
+        <span class="step-number">5</span>
+        <span class="step-text">
+          <strong>Payments</strong>
+          <span>Money received</span>
+        </span>
+      </button>
+
+      <button class="step" data-step="5">
+        <span class="step-number">6</span>
+        <span class="step-text">
+          <strong>Communication</strong>
+          <span>Customer contact</span>
+        </span>
+      </button>
+
+      <button class="step" data-step="6">
+        <span class="step-number">7</span>
+        <span class="step-text">
+          <strong>Reporting</strong>
+          <span>Business information</span>
+        </span>
+      </button>
+
+      <button class="step" data-step="7">
+        <span class="step-number">8</span>
+        <span class="step-text">
+          <strong>Pricing</strong>
+          <span>Products & prices</span>
+        </span>
+      </button>
+
+      <button class="step" data-step="8">
+        <span class="step-number">9</span>
+        <span class="step-text">
+          <strong>Invoices</strong>
+          <span>Business documents</span>
+        </span>
+      </button>
+
+      <button class="step" data-step="9">
+        <span class="step-number">10</span>
+        <span class="step-text">
+          <strong>Documents</strong>
+          <span>Upload records</span>
+        </span>
+      </button>
+
+      <div class="progress">
+
+        <div class="progress-label">
+          <span>Progress</span>
+          <strong id="progressText">10%</strong>
+        </div>
+
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+      </div>
+
+    </aside>
+
+
+    <!-- FORM -->
+
+    <div class="form-area">
+
+      <div class="form-card">
+
+        <div class="form-head">
+
+          <div class="kicker">
+            Business assessment
+          </div>
+
+          <h2 id="formTitle">
+            Tell us about your business.
+          </h2>
+
+          <p id="formDescription">
+            Start with the information that identifies your business and the
+            way you currently operate.
+          </p>
+
+        </div>
+
+
+        <form id="businessForm">
+
+          <div class="form-body">
+
+
+            <!-- =====================
+            1 BUSINESS PROFILE
+            ====================== -->
+
+            <div class="category active" data-category="0">
+
+              <div class="category-title">
+                <h3>Business Profile</h3>
+                <p>Basic information about the business being assessed.</p>
+              </div>
+
+              <div class="field-grid">
+
+                <div class="field">
+                  <label>Business name</label>
+                  <input id="businessName" type="text" placeholder="e.g. Adeola Fashion">
+                </div>
+
+                <div class="field">
+                  <label>Business owner / contact</label>
+                  <input id="ownerName" type="text" placeholder="Full name">
+                </div>
+
+                <div class="field">
+                  <label>Business email</label>
+                  <input id="email" type="email" placeholder="business@email.com">
+                </div>
+
+                <div class="field">
+                  <label>Phone number</label>
+                  <input id="phone" type="tel" placeholder="+234...">
+                </div>
+
+                <div class="field">
+                  <label>Business location</label>
+                  <input id="location" type="text" placeholder="City / State / Country">
+                </div>
+
+                <div class="field">
+                  <label>Business type</label>
+
+                  <select id="businessType">
+                    <option value="">Select</option>
+                    <option>Retail</option>
+                    <option>Wholesale</option>
+                    <option>Service business</option>
+                    <option>Manufacturing</option>
+                    <option>Online business</option>
+                    <option>Food business</option>
+                    <option>Professional service</option>
+                    <option>Other</option>
+                  </select>
+
+                </div>
+
+                <div class="field full">
+
+                  <label>Describe what the business does</label>
+
+                  <textarea
+                    id="businessDescription"
+                    placeholder="What does the business sell, provide or deliver?"
+                  ></textarea>
+
+                </div>
+
+                <div class="field full">
+
+                  <label>How do you currently keep business records?</label>
+
+                  <div class="checkbox-grid">
+
+                    <div class="check">
+                      <input type="checkbox" id="recordNotebook" name="records" value="Notebook">
+                      <label for="recordNotebook">Notebook</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" id="recordPhone" name="records" value="Phone">
+                      <label for="recordPhone">Phone</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" id="recordWhatsapp" name="records" value="WhatsApp">
+                      <label for="recordWhatsapp">WhatsApp</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" id="recordExcel" name="records" value="Spreadsheet">
+                      <label for="recordExcel">Spreadsheet</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" id="recordSoftware" name="records" value="Business Software">
+                      <label for="recordSoftware">Business software</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" id="recordNone" name="records" value="No formal system">
+                      <label for="recordNone">No formal system</label>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- =====================
+            2 ORDERS
+            ====================== -->
+
+            <div class="category" data-category="1">
+
+              <div class="category-title">
+                <h3>Customer Orders</h3>
+                <p>Document how orders enter, move through and leave the business.</p>
+              </div>
+
+              <div class="field-grid">
+
+                <div class="field">
+                  <label>Approximate orders per month</label>
+                  <input id="ordersMonth" type="number" min="0" placeholder="0">
+                </div>
+
+                <div class="field">
+                  <label>Where do orders usually arrive?</label>
+
+                  <select id="orderChannel">
+                    <option value="">Select</option>
+                    <option>WhatsApp</option>
+                    <option>Phone calls</option>
+                    <option>Website</option>
+                    <option>Social media</option>
+                    <option>Physical store</option>
+                    <option>Email</option>
+                    <option>Multiple channels</option>
+                  </select>
+
+                </div>
+
+                <div class="field full">
+
+                  <label>How are orders recorded?</label>
+
+                  <textarea
+                    id="orderProcess"
+                    placeholder="Describe what happens from the moment a customer places an order..."
+                  ></textarea>
+
+                </div>
+
+                <div class="field full">
+
+                  <label>Problems experienced with orders</label>
+
+                  <div class="checkbox-grid">
+
+                    <div class="check">
+                      <input type="checkbox" name="orderProblems" value="Lost orders">
+                      <label>Lost orders</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="orderProblems" value="Duplicate orders">
+                      <label>Duplicate orders</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="orderProblems" value="Delayed orders">
+                      <label>Delayed orders</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="orderProblems" value="Wrong order details">
+                      <label>Wrong order details</label>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- =====================
+            3 CUSTOMERS
+            ====================== -->
+
+            <div class="category" data-category="2">
+
+              <div class="category-title">
+                <h3>Customer Information</h3>
+                <p>Understand how customer information is stored and used.</p>
+              </div>
+
+              <div class="field-grid">
+
+                <div class="field">
+                  <label>Approximate number of customers</label>
+                  <input id="customerCount" type="number" min="0" placeholder="0">
+                </div>
+
+                <div class="field">
+                  <label>Where are customer records kept?</label>
+
+                  <select id="customerRecords">
+                    <option value="">Select</option>
+                    <option>Phone contacts</option>
+                    <option>Notebook</option>
+                    <option>Spreadsheet</option>
+                    <option>CRM</option>
+                    <option>Messaging apps</option>
+                    <option>Multiple places</option>
+                    <option>Nowhere formally</option>
+                  </select>
+
+                </div>
+
+                <div class="field full">
+                  <label>What customer information do you normally keep?</label>
+
+                  <div class="checkbox-grid">
+
+                    <div class="check">
+                      <input type="checkbox" name="customerData" value="Name">
+                      <label>Name</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="customerData" value="Telephone">
+                      <label>Telephone</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="customerData" value="Location">
+                      <label>Location</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="customerData" value="Purchase history">
+                      <label>Purchase history</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="customerData" value="Preferences">
+                      <label>Preferences</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="customerData" value="Customer status">
+                      <label>Customer status</label>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="field full">
+                  <label>What makes customer information difficult to manage?</label>
+                  <textarea id="customerProblem" placeholder="Describe the difficulty..."></textarea>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- =====================
+            4 INVENTORY
+            ====================== -->
+
+            <div class="category" data-category="3">
+
+              <div class="category-title">
+                <h3>Inventory & Stock</h3>
+                <p>Capture how stock is currently monitored.</p>
+              </div>
+
+              <div class="field-grid">
+
+                <div class="field">
+                  <label>Number of products / stock items</label>
+                  <input id="productCount" type="number" min="0" placeholder="0">
+                </div>
+
+                <div class="field">
+                  <label>How is stock currently tracked?</label>
+
+                  <select id="stockMethod">
+                    <option value="">Select</option>
+                    <option>Memory</option>
+                    <option>Notebook</option>
+                    <option>Spreadsheet</option>
+                    <option>Business software</option>
+                    <option>Physical counting</option>
+                    <option>Not tracked</option>
+                  </select>
+
+                </div>
+
+                <div class="field">
+                  <label>Opening stock</label>
+                  <input id="openingStock" type="number" min="0" value="0">
+                </div>
+
+                <div class="field">
+                  <label>Stock added</label>
+                  <input id="stockAdded" type="number" min="0" value="0">
+                </div>
+
+                <div class="field">
+                  <label>Quantity sold</label>
+                  <input id="quantitySold" type="number" min="0" value="0">
+                </div>
+
+                <div class="field">
+                  <label>Current stock</label>
+                  <input id="remainingStock" type="number" readonly value="0">
+                </div>
+
+                <div class="field full">
+                  <label>Stock problems</label>
+
+                  <div class="checkbox-grid">
+
+                    <div class="check">
+                      <input type="checkbox" name="stockProblems" value="Stockouts">
+                      <label>Stockouts</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="stockProblems" value="Overstocking">
+                      <label>Overstocking</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="stockProblems" value="Unknown stock">
+                      <label>Unknown stock level</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="stockProblems" value="Slow restocking">
+                      <label>Slow restocking</label>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="calculator">
+
+                <div class="calculator-head">
+                  <h4>Live Stock Calculation</h4>
+                  <div class="calculator-result" id="stockResult">0 units</div>
+                </div>
+
+                <p style="font-size:.78rem;color:var(--muted);">
+                  Opening Stock + Stock Added − Quantity Sold
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <!-- =====================
+            5 PAYMENTS
+            ====================== -->
+
+            <div class="category" data-category="4">
+
+              <div class="category-title">
+                <h3>Payments & Reconciliation</h3>
+                <p>Understand how money received is connected to business transactions.</p>
+              </div>
+
+              <div class="field-grid">
+
+                <div class="field">
+                  <label>Number of payments per month</label>
+                  <input id="paymentsMonth" type="number" min="0" placeholder="0">
+                </div>
+
+                <div class="field">
+                  <label>Payment channels</label>
+
+                  <select id="paymentChannel">
+                    <option value="">Select</option>
+                    <option>Bank transfer</option>
+                    <option>Cash</option>
+                    <option>POS</option>
+                    <option>Mobile payment</option>
+                    <option>Multiple channels</option>
+                  </select>
+
+                </div>
+
+                <div class="field full">
+                  <label>How are payments matched to orders?</label>
+
+                  <textarea
+                    id="paymentProcess"
+                    placeholder="Explain how you confirm that a customer has paid for a specific order..."
+                  ></textarea>
+
+                </div>
+
+              </div>
+
+              <div class="calculator" id="calculator">
+
+                <div class="calculator-head">
+                  <h4>Payment Calculator</h4>
+                  <div class="calculator-result" id="balanceResult">₦0</div>
+                </div>
+
+                <div class="calc-row">
+
+                  <div class="field">
+                    <label>Order total (₦)</label>
+                    <input id="orderTotal" type="number" min="0" value="0">
+                  </div>
+
+                  <div class="field">
+                    <label>Amount paid (₦)</label>
+                    <input id="amountPaid" type="number" min="0" value="0">
+                  </div>
+
+                </div>
+
+                <div class="calc-output">
+
+                  <div class="output-box">
+                    <span>Order Total</span>
+                    <strong id="displayTotal">₦0</strong>
+                  </div>
+
+                  <div class="output-box">
+                    <span>Amount Paid</span>
+                    <strong id="displayPaid">₦0</strong>
+                  </div>
+
+                  <div class="output-box">
+                    <span>Balance</span>
+                    <strong id="displayBalance">₦0</strong>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- =====================
+            6 COMMUNICATION
+            ====================== -->
+
+            <div class="category" data-category="5">
+
+              <div class="category-title">
+                <h3>Customer Communication</h3>
+                <p>Identify where customer conversations happen and what gets lost.</p>
+              </div>
+
+              <div class="field-grid">
+
+                <div class="field">
+                  <label>Main communication channel</label>
+
+                  <select id="communicationChannel">
+                    <option value="">Select</option>
+                    <option>WhatsApp</option>
+                    <option>Phone</option>
+                    <option>Email</option>
+                    <option>Instagram</option>
+                    <option>Facebook</option>
+                    <option>Website</option>
+                    <option>Multiple channels</option>
+                  </select>
+
+                </div>
+
+                <div class="field">
+                  <label>Approximate daily inquiries</label>
+                  <input id="dailyInquiries" type="number" min="0" placeholder="0">
+                </div>
+
+                <div class="field full">
+                  <label>What types of conversations do you receive?</label>
+
+                  <div class="checkbox-grid">
+
+                    <div class="check">
+                      <input type="checkbox" name="communicationTypes" value="New inquiry">
+                      <label>New inquiry</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="communicationTypes" value="New order">
+                      <label>New order</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="communicationTypes" value="Payment">
+                      <label>Payment confirmation</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="communicationTypes" value="Delivery">
+                      <label>Delivery inquiry</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="communicationTypes" value="Complaint">
+                      <label>Complaint</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="communicationTypes" value="Follow-up">
+                      <label>Follow-up</label>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="field full">
+                  <label>What communication problem occurs most often?</label>
+                  <textarea id="communicationProblem" placeholder="Missed messages, delayed responses, repeated questions, etc."></textarea>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- =====================
+            7 REPORTING
+            ====================== -->
+
+            <div class="category" data-category="6">
+
+              <div class="category-title">
+                <h3>Sales & Business Reporting</h3>
+                <p>Determine what information the business can currently see.</p>
+              </div>
+
+              <div class="field-grid">
+
+                <div class="field">
+                  <label>Can you calculate daily sales?</label>
+                  <select id="dailySales">
+                    <option value="">Select</option>
+                    <option>Yes</option>
+                    <option>Sometimes</option>
+                    <option>No</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label>Can you calculate monthly sales?</label>
+                  <select id="monthlySales">
+                    <option value="">Select</option>
+                    <option>Yes</option>
+                    <option>Sometimes</option>
+                    <option>No</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label>Do you know your best-selling product?</label>
+                  <select id="bestProduct">
+                    <option value="">Select</option>
+                    <option>Yes</option>
+                    <option>Sometimes</option>
+                    <option>No</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label>Do you track customer purchase history?</label>
+                  <select id="purchaseHistory">
+                    <option value="">Select</option>
+                    <option>Yes</option>
+                    <option>Sometimes</option>
+                    <option>No</option>
+                  </select>
+                </div>
+
+                <div class="field full">
+                  <label>What reports would be useful to you?</label>
+
+                  <div class="checkbox-grid">
+
+                    <div class="check">
+                      <input type="checkbox" name="reports" value="Daily sales">
+                      <label>Daily sales</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="reports" value="Monthly sales">
+                      <label>Monthly sales</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="reports" value="Product performance">
+                      <label>Product performance</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="reports" value="Customer purchases">
+                      <label>Customer purchases</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="reports" value="Order volume">
+                      <label>Order volume</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="reports" value="Payment status">
+                      <label>Payment status</label>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- =====================
+            8 PRICING
+            ====================== -->
+
+            <div class="category" data-category="7">
+
+              <div class="category-title">
+                <h3>Products & Pricing</h3>
+                <p>Capture how products and prices are maintained.</p>
+              </div>
+
+              <div class="field-grid">
+
+                <div class="field">
+                  <label>Number of active products</label>
+                  <input id="activeProducts" type="number" min="0" placeholder="0">
+                </div>
+
+                <div class="field">
+                  <label>How are prices maintained?</label>
+
+                  <select id="pricingMethod">
+                    <option value="">Select</option>
+                    <option>Memory</option>
+                    <option>Notebook</option>
+                    <option>Price list</option>
+                    <option>Spreadsheet</option>
+                    <option>Software</option>
+                  </select>
+
+                </div>
+
+                <div class="field full">
+                  <label>What affects your prices?</label>
+
+                  <div class="checkbox-grid">
+
+                    <div class="check">
+                      <input type="checkbox" name="priceFactors" value="Quantity">
+                      <label>Quantity</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="priceFactors" value="Discounts">
+                      <label>Discounts</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="priceFactors" value="Delivery">
+                      <label>Delivery charges</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="priceFactors" value="Customer type">
+                      <label>Customer type</label>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="field full">
+                  <label>Pricing difficulties</label>
+                  <textarea id="pricingProblem" placeholder="Describe any difficulty keeping prices accurate or consistent..."></textarea>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- =====================
+            9 INVOICES
+            ====================== -->
+
+            <div class="category" data-category="8">
+
+              <div class="category-title">
+                <h3>Invoices & Receipts</h3>
+                <p>Document how transaction records are produced.</p>
+              </div>
+
+              <div class="field-grid">
+
+                <div class="field">
+                  <label>Do you issue invoices?</label>
+
+                  <select id="invoiceUse">
+                    <option value="">Select</option>
+                    <option>Always</option>
+                    <option>Sometimes</option>
+                    <option>No</option>
+                  </select>
+
+                </div>
+
+                <div class="field">
+                  <label>How are invoices created?</label>
+
+                  <select id="invoiceMethod">
+                    <option value="">Select</option>
+                    <option>Handwritten</option>
+                    <option>Word processor</option>
+                    <option>Spreadsheet</option>
+                    <option>Invoice software</option>
+                    <option>Messaging app</option>
+                    <option>Not created</option>
+                  </select>
+
+                </div>
+
+                <div class="field full">
+                  <label>What information appears on your invoices?</label>
+
+                  <div class="checkbox-grid">
+
+                    <div class="check">
+                      <input type="checkbox" name="invoiceData" value="Customer">
+                      <label>Customer information</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="invoiceData" value="Products">
+                      <label>Products</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="invoiceData" value="Quantity">
+                      <label>Quantity</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="invoiceData" value="Unit price">
+                      <label>Unit price</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="invoiceData" value="Total">
+                      <label>Total</label>
+                    </div>
+
+                    <div class="check">
+                      <input type="checkbox" name="invoiceData" value="Balance">
+                      <label>Balance</label>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- =====================
+            10 DOCUMENTS
+            ====================== -->
+
+            <div class="category" data-category="9" id="documents">
+
+              <div class="category-title">
+                <h3>Upload Existing Records</h3>
+                <p>
+                  Add files that can help describe your current business operations.
+                </p>
+              </div>
+
+              <div class="upload" id="uploadArea">
+
+                <div class="upload-icon">
+                  ↑
+                </div>
+
+                <h4>Drop your files here</h4>
+
+                <p>
+                  Upload spreadsheets, PDFs, documents, images or other business records.
+                </p>
+
+                <label class="upload-button">
+                  Choose Files
+                  <input
+                    class="file-input"
+                    id="fileInput"
+                    type="file"
+                    multiple
+                    accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png"
+                  >
+                </label>
+
+                <div class="file-list" id="fileList"></div>
+
+              </div>
+
+              <div class="field-grid" style="margin-top:22px;">
+
+                <div class="field full">
+                  <label>What do these files contain?</label>
+
+                  <textarea
+                    id="fileDescription"
+                    placeholder="For example: January sales spreadsheet, customer list, handwritten order records..."
+                  ></textarea>
+
+                </div>
+
+                <div class="field full">
+
+                  <label>Anything else we should know?</label>
+
+                  <textarea
+                    id="additionalInformation"
+                    placeholder="Add any information relevant to the assessment..."
+                  ></textarea>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- FORM NAVIGATION -->
+
+          <div class="form-footer">
+
+            <button
+              type="button"
+              class="btn back-btn"
+              id="backButton"
+            >
+              ← Back
+            </button>
+
+            <button
+              type="button"
+              class="btn next-btn"
+              id="nextButton"
+            >
+              Continue →
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+RESULT
+========================= -->
+
+<section class="result-section" id="results">
+
+  <div class="container">
+
+    <div class="result">
+
+      <div class="result-head">
+
+        <div class="kicker">
+          Assessment complete
+        </div>
+
+        <h2 id="resultBusiness">
+          Business Assessment
+        </h2>
+
+        <p>
+          Your submitted information has been organized into a preliminary
+          operational assessment.
+        </p>
+
+      </div>
+
+
+      <div class="score-grid">
+
+        <div class="score">
+          <span>Assessment Areas</span>
+          <strong id="areasScore">10</strong>
+        </div>
+
+        <div class="score">
+          <span>Priority Areas</span>
+          <strong id="priorityScore">0</strong>
+        </div>
+
+        <div class="score">
+          <span>Current Stock</span>
+          <strong id="resultStock">0</strong>
+        </div>
+
+        <div class="score">
+          <span>Outstanding Balance</span>
+          <strong id="resultBalance">₦0</strong>
+        </div>
+
+      </div>
+
+
+      <div class="result-body">
+
+        <div class="result-columns">
+
+          <div class="result-box">
+
+            <h3>Priority Areas</h3>
+
+            <div id="priorityList"></div>
+
+          </div>
+
+
+          <div class="result-box">
+
+            <h3>Assessment Summary</h3>
+
+            <div id="summaryText" style="color:var(--muted);font-size:.86rem;line-height:1.8;">
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="report-actions">
+
+          <button
+            class="btn primary"
+            id="printReport"
+          >
+            Print / Save PDF
+          </button>
+
+          <button
+            class="btn next-btn"
+            id="downloadReport"
+          >
+            Download Report
+          </button>
+
+          <button
+            class="btn back-btn"
+            onclick="window.scrollTo({top:document.getElementById('assessment').offsetTop-80,behavior:'smooth'})"
+          >
+            Edit Assessment
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+FOOTER
+========================= -->
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div>
+
+        <a href="#" class="logo">
+          <span class="logo-mark">BC</span>
+          <span>Business Computing Assessment</span>
+        </a>
+
+        <p style="margin-top:15px;max-width:370px;">
+          A practical digital assessment for understanding how a business
+          currently handles information, transactions, customers, stock,
+          payments and operational processes.
+        </p>
+
+      </div>
+
+      <div>
+
+        <h4>Assessment</h4>
+
+        <div class="footer-links">
+          <a href="#assessment">Start Assessment</a>
+          <a href="#calculator">Calculators</a>
+          <a href="#documents">Upload Records</a>
+          <a href="#results">Results</a>
+        </div>
+
+      </div>
+
+      <div>
+
+        <h4>Business Areas</h4>
+
+        <div class="footer-links">
+          <a href="#assessment">Orders</a>
+          <a href="#assessment">Customers</a>
+          <a href="#assessment">Inventory</a>
+          <a href="#assessment">Payments</a>
+          <a href="#assessment">Reporting</a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="copyright">
+
+      <span>
+        © <span id="year"></span> Business Computing Assessment
+      </span>
+
+      <span>
+        Practical business systems assessment.
+      </span>
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* ==========================================
+NAVIGATION
+========================================== */
+
+const menuButton = document.getElementById("menuButton");
+const navLinks = document.getElementById("navLinks");
+
+menuButton.addEventListener("click", () => {
+  navLinks.classList.toggle("active");
+  menuButton.textContent =
+    navLinks.classList.contains("active") ? "×" : "☰";
+});
+
+document.querySelectorAll(".nav-links a").forEach(link => {
+  link.addEventListener("click", () => {
+    navLinks.classList.remove("active");
+    menuButton.textContent = "☰";
+  });
+});
+
+
+/* ==========================================
+MULTI-STEP FORM
+========================================== */
+
+const categories =
+  document.querySelectorAll(".category");
+
+const steps =
+  document.querySelectorAll(".step");
+
+const nextButton =
+  document.getElementById("nextButton");
+
+const backButton =
+  document.getElementById("backButton");
+
+const formTitle =
+  document.getElementById("formTitle");
+
+const formDescription =
+  document.getElementById("formDescription");
+
+const progressFill =
+  document.getElementById("progressFill");
+
+const progressText =
+  document.getElementById("progressText");
+
+let currentStep = 0;
+
+const titles = [
+  [
+    "Tell us about your business.",
+    "Start with the information that identifies your business and the way you currently operate."
+  ],
+  [
+    "How do you handle customer orders?",
+    "Document where orders come from and what happens after they arrive."
+  ],
+  [
+    "How do you manage customers?",
+    "Capture how customer information is stored and accessed."
+  ],
+  [
+    "How do you control stock?",
+    "Tell us how products enter, leave and remain in the business."
+  ],
+  [
+    "How do you track payments?",
+    "Show how money received is connected to customer transactions."
+  ],
+  [
+    "How does your business communicate?",
+    "Identify the channels customers use and the problems that occur."
+  ],
+  [
+    "Can you see what your business is doing?",
+    "Tell us which business information you can currently measure."
+  ],
+  [
+    "How do you control product pricing?",
+    "Document how products and prices are maintained."
+  ],
+  [
+    "How do you produce invoices?",
+    "Tell us how transaction documentation is created."
+  ],
+  [
+    "Add your existing records.",
+    "Upload documents that can help describe your current business operations."
+  ]
+];
+
+function showStep(index){
+
+  currentStep = index;
+
+  categories.forEach((category,i)=>{
+    category.classList.toggle("active",i===index);
+  });
+
+  steps.forEach((step,i)=>{
+    step.classList.toggle("active",i===index);
+    step.classList.toggle("done",i<index);
+  });
+
+  formTitle.textContent = titles[index][0];
+  formDescription.textContent = titles[index][1];
+
+  const percent = ((index+1)/categories.length)*100;
+
+  progressFill.style.width = percent + "%";
+  progressText.textContent = Math.round(percent) + "%";
+
+  backButton.style.visibility =
+    index === 0 ? "hidden" : "visible";
+
+  nextButton.textContent =
+    index === categories.length-1
+    ? "Generate Assessment →"
+    : "Continue →";
+
+  window.scrollTo({
+    top:document.getElementById("assessment").offsetTop-80,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* SIDEBAR */
+
+steps.forEach(step => {
+
+  step.addEventListener("click",()=>{
+
+    const target =
+      Number(step.dataset.step);
+
+    if(target <= currentStep){
+      showStep(target);
+    }
+
+  });
+
+});
+
+
+/* NEXT */
+
+nextButton.addEventListener("click",()=>{
+
+  if(currentStep < categories.length-1){
+
+    showStep(currentStep+1);
+
+  }else{
+
+    generateAssessment();
+
+  }
+
+});
+
+
+/* BACK */
+
+backButton.addEventListener("click",()=>{
+
+  if(currentStep > 0){
+    showStep(currentStep-1);
+  }
+
+});
+
+
+/* ==========================================
+STOCK CALCULATOR
+========================================== */
+
+const openingStock =
+  document.getElementById("openingStock");
+
+const stockAdded =
+  document.getElementById("stockAdded");
+
+const quantitySold =
+  document.getElementById("quantitySold");
+
+const remainingStock =
+  document.getElementById("remainingStock");
+
+const stockResult =
+  document.getElementById("stockResult");
+
+function calculateStock(){
+
+  const opening =
+    Number(openingStock.value)||0;
+
+  const added =
+    Number(stockAdded.value)||0;
+
+  const sold =
+    Number(quantitySold.value)||0;
+
+  const remaining =
+    opening + added - sold;
+
+  remainingStock.value = remaining;
+
+  stockResult.textContent =
+    remaining.toLocaleString() + " units";
+
+}
+
+[
+  openingStock,
+  stockAdded,
+  quantitySold
+].forEach(input=>{
+  input.addEventListener("input",calculateStock);
+});
+
+
+/* ==========================================
+PAYMENT CALCULATOR
+========================================== */
+
+const orderTotal =
+  document.getElementById("orderTotal");
+
+const amountPaid =
+  document.getElementById("amountPaid");
+
+const balanceResult =
+  document.getElementById("balanceResult");
+
+const displayTotal =
+  document.getElementById("displayTotal");
+
+const displayPaid =
+  document.getElementById("displayPaid");
+
+const displayBalance =
+  document.getElementById("displayBalance");
+
+function naira(value){
+
+  return "₦" +
+    Number(value||0).toLocaleString(
+      "en-NG",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    );
+
+}
+
+function calculatePayment(){
+
+  const total =
+    Number(orderTotal.value)||0;
+
+  const paid =
+    Number(amountPaid.value)||0;
+
+  const balance =
+    total-paid;
+
+  displayTotal.textContent =
+    naira(total);
+
+  displayPaid.textContent =
+    naira(paid);
+
+  displayBalance.textContent =
+    naira(balance);
+
+  balanceResult.textContent =
+    naira(balance);
+
+}
+
+[
+  orderTotal,
+  amountPaid
+].forEach(input=>{
+  input.addEventListener("input",calculatePayment);
+});
+
+
+/* ==========================================
+FILE UPLOAD
+========================================== */
+
+const fileInput =
+  document.getElementById("fileInput");
+
+const uploadArea =
+  document.getElementById("uploadArea");
+
+const fileList =
+  document.getElementById("fileList");
+
+let selectedFiles = [];
+
+fileInput.addEventListener("change",event=>{
+
+  addFiles([...event.target.files]);
+
+});
+
+
+function addFiles(files){
+
+  selectedFiles = [
+    ...selectedFiles,
+    ...files
+  ];
+
+  renderFiles();
+
+}
+
+
+function renderFiles(){
+
+  fileList.innerHTML = "";
+
+  selectedFiles.forEach((file,index)=>{
+
+    const item =
+      document.createElement("div");
+
+    item.className = "file-item";
+
+    item.innerHTML = `
+      <span>
+        ${file.name}
+        <small style="color:#8a98aa;">
+          (${formatFileSize(file.size)})
+        </small>
+      </span>
+
+      <button
+        type="button"
+        class="file-remove"
+        data-index="${index}"
+      >
+        Remove
+      </button>
+    `;
+
+    fileList.appendChild(item);
+
+  });
+
+  document.querySelectorAll(".file-remove")
+    .forEach(button=>{
+
+      button.addEventListener("click",()=>{
+
+        selectedFiles.splice(
+          Number(button.dataset.index),
+          1
+        );
+
+        renderFiles();
+
+      });
+
+    });
+
+}
+
+
+function formatFileSize(bytes){
+
+  if(bytes < 1024)
+    return bytes+" B";
+
+  if(bytes < 1024*1024)
+    return Math.round(bytes/1024)+" KB";
+
+  return (
+    bytes/(1024*1024)
+  ).toFixed(1)+" MB";
+
+}
+
+
+/* DRAG DROP */
+
+["dragenter","dragover"].forEach(eventName=>{
+
+  uploadArea.addEventListener(eventName,event=>{
+
+    event.preventDefault();
+
+    uploadArea.classList.add("dragover");
+
+  });
+
+});
+
+["dragleave","drop"].forEach(eventName=>{
+
+  uploadArea.addEventListener(eventName,event=>{
+
+    event.preventDefault();
+
+    uploadArea.classList.remove("dragover");
+
+  });
+
+});
+
+uploadArea.addEventListener("drop",event=>{
+
+  addFiles([...event.dataTransfer.files]);
+
+});
+
+
+/* ==========================================
+COLLECT CHECKBOX VALUES
+========================================== */
+
+function getChecked(name){
+
+  return [
+    ...document.querySelectorAll(
+      `input[name="${name}"]:checked`
+    )
+  ].map(input=>input.value);
+
+}
+
+
+/* ==========================================
+PRIORITY SCORING
+========================================== */
+
+function calculatePriorities(){
+
+  const priorities = {
+
+    "Order Management":0,
+    "Customer Management":0,
+    "Inventory Control":0,
+    "Payment Reconciliation":0,
+    "Customer Communication":0,
+    "Business Reporting":0,
+    "Product & Pricing":0,
+    "Invoice & Documentation":0
+
+  };
+
+
+  /* Orders */
+
+  const orderProblems =
+    getChecked("orderProblems");
+
+  priorities["Order Management"] +=
+    orderProblems.length * 2;
+
+  if(
+    document.getElementById("ordersMonth").value > 100
+  ){
+    priorities["Order Management"] += 2;
+  }
+
+
+  /* Customers */
+
+  if(
+    document.getElementById("customerRecords").value ===
+    "Multiple places"
+  ){
+    priorities["Customer Management"] += 3;
+  }
+
+  if(
+    document.getElementById("customerRecords").value ===
+    "Nowhere formally"
+  ){
+    priorities["Customer Management"] += 4;
+  }
+
+
+  const customerData =
+    getChecked("customerData");
+
+  if(customerData.length < 3){
+    priorities["Customer Management"] += 2;
+  }
+
+
+  /* Inventory */
+
+  const stockProblems =
+    getChecked("stockProblems");
+
+  priorities["Inventory Control"] +=
+    stockProblems.length * 2;
+
+  if(
+    document.getElementById("stockMethod").value ===
+    "Memory"
+  ){
+    priorities["Inventory Control"] += 3;
+  }
+
+  if(
+    document.getElementById("stockMethod").value ===
+    "Not tracked"
+  ){
+    priorities["Inventory Control"] += 4;
+  }
+
+
+  /* Payments */
+
+  const paymentProcess =
+    document.getElementById("paymentProcess").value.trim();
+
+  if(!paymentProcess){
+    priorities["Payment Reconciliation"] += 3;
+  }
+
+  const balance =
+    Number(orderTotal.value||0) -
+    Number(amountPaid.value||0);
+
+  if(balance > 0){
+    priorities["Payment Reconciliation"] += 2;
+  }
+
+
+  /* Communication */
+
+  if(
+    Number(document.getElementById("dailyInquiries").value||0) > 20
+  ){
+    priorities["Customer Communication"] += 2;
+  }
+
+  if(
+    document.getElementById("communicationProblem").value.trim()
+  ){
+    priorities["Customer Communication"] += 2;
+  }
+
+
+  /* Reporting */
+
+  [
+    "dailySales",
+    "monthlySales",
+    "bestProduct",
+    "purchaseHistory"
+  ].forEach(id=>{
+
+    if(
+      document.getElementById(id).value === "No"
+    ){
+      priorities["Business Reporting"] += 2;
+    }
+
+  });
+
+
+  /* Pricing */
+
+  if(
+    document.getElementById("pricingMethod").value ===
+    "Memory"
+  ){
+    priorities["Product & Pricing"] += 3;
+  }
+
+
+  /* Invoices */
+
+  if(
+    document.getElementById("invoiceUse").value ===
+    "No"
+  ){
+    priorities["Invoice & Documentation"] += 3;
+  }
+
+  if(
+    document.getElementById("invoiceMethod").value ===
+    "Handwritten"
+  ){
+    priorities["Invoice & Documentation"] += 2;
+  }
+
+
+  return priorities;
+
+}
+
+
+/* ==========================================
+GENERATE ASSESSMENT
+========================================== */
+
+function generateAssessment(){
+
+  calculateStock();
+  calculatePayment();
+
+  const businessName =
+    document.getElementById("businessName").value.trim()
+    || "Your Business";
+
+  const priorities =
+    calculatePriorities();
+
+  const sorted =
+    Object.entries(priorities)
+      .sort((a,b)=>b[1]-a[1]);
+
+  const high =
+    sorted.filter(item=>item[1]>=4);
+
+  document.getElementById("resultBusiness")
+    .textContent =
+      businessName + " — Assessment";
+
+
+  document.getElementById("priorityScore")
+    .textContent =
+      high.length;
+
+
+  document.getElementById("resultStock")
+    .textContent =
+      Number(
+        remainingStock.value||0
+      ).toLocaleString();
+
+
+  const balance =
+    Number(orderTotal.value||0) -
+    Number(amountPaid.value||0);
+
+  document.getElementById("resultBalance")
+    .textContent =
+      naira(balance);
+
+
+  const priorityList =
+    document.getElementById("priorityList");
+
+  priorityList.innerHTML = "";
+
+  sorted.forEach(([name,score])=>{
+
+    let level = "Low";
+
+    if(score >= 4){
+      level = "High";
+    }else if(score >= 2){
+      level = "Medium";
+    }
+
+    const row =
+      document.createElement("div");
+
+    row.className = "priority";
+
+    row.innerHTML = `
+      <span class="priority-name">
+        ${name}
+      </span>
+
+      <span class="badge ${
+        level.toLowerCase()
+      }">
+        ${level}
+      </span>
+    `;
+
+    priorityList.appendChild(row);
+
+  });
+
+
+  const summary = [];
+
+  if(high.length){
+    summary.push(
+      `<p><strong>Priority attention:</strong>
+      ${high.map(item=>item[0]).join(", ")}.</p>`
+    );
+  }else{
+    summary.push(
+      `<p>No major priority area was strongly flagged
+      from the information entered.</p>`
+    );
+  }
+
+
+  summary.push(
+    `<p style="margin-top:12px;">
+    Current recorded stock:
+    <strong>${Number(
+      remainingStock.value||0
+    ).toLocaleString()} units.</strong>
+    </p>`
+  );
+
+
+  summary.push(
+    `<p style="margin-top:12px;">
+    Current calculated outstanding balance:
+    <strong>${naira(balance)}.</strong>
+    </p>`
+  );
+
+
+  if(selectedFiles.length){
+
+    summary.push(
+      `<p style="margin-top:12px;">
+      ${selectedFiles.length} file(s) were attached
+      to this assessment workspace.
+      </p>`
+    );
+
+  }
+
+
+  document.getElementById("summaryText")
+    .innerHTML =
+      summary.join("");
+
+
+  const resultSection =
+    document.getElementById("results");
+
+  resultSection.classList.add("show");
+
+  setTimeout(()=>{
+
+    resultSection.scrollIntoView({
+      behavior:"smooth"
+    });
+
+  },100);
+
+  showToast(
+    "Assessment generated successfully."
+  );
+
+}
+
+
+/* ==========================================
+PRINT
+========================================== */
+
+document.getElementById("printReport")
+  .addEventListener("click",()=>{
+
+    window.print();
+
+  });
+
+
+/* ==========================================
+DOWNLOAD REPORT
+========================================== */
+
+document.getElementById("downloadReport")
+  .addEventListener("click",()=>{
+
+    const businessName =
+      document.getElementById("businessName").value
+      || "Business";
+
+    const priorities =
+      calculatePriorities();
+
+    const sorted =
+      Object.entries(priorities)
+        .sort((a,b)=>b[1]-a[1]);
+
+    const report = `
+
+BUSINESS COMPUTING ASSESSMENT
+=============================
+
+BUSINESS
+${businessName}
+
+OWNER / CONTACT
+${document.getElementById("ownerName").value || "Not provided"}
+
+EMAIL
+${document.getElementById("email").value || "Not provided"}
+
+PHONE
+${document.getElementById("phone").value || "Not provided"}
+
+LOCATION
+${document.getElementById("location").value || "Not provided"}
+
+
+PRIORITY AREAS
+==============
+
+${sorted.map(
+  ([name,score]) =>
+  `${name}: ${score >= 4 ? "HIGH" : score >= 2 ? "MEDIUM" : "LOW"}`
+).join("\n")}
+
+
+CALCULATIONS
+============
+
+Current Stock:
+${remainingStock.value || 0} units
+
+Order Total:
+${naira(orderTotal.value || 0)}
+
+Amount Paid:
+${naira(amountPaid.value || 0)}
+
+Outstanding Balance:
+${naira(
+  Number(orderTotal.value || 0) -
+  Number(amountPaid.value || 0)
+)}
+
+
+UPLOADED FILES
+==============
+
+${
+  selectedFiles.length
+  ? selectedFiles.map(file=>file.name).join("\n")
+  : "No files uploaded."
+}
+
+
+ADDITIONAL INFORMATION
+======================
+
+${
+  document.getElementById("additionalInformation").value
+  || "None provided."
+}
+
+Generated:
+${new Date().toLocaleString()}
+
+`;
+
+
+    const blob =
+      new Blob(
+        [report],
+        {type:"text/plain"}
+      );
+
+    const url =
+      URL.createObjectURL(blob);
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+      businessName.replace(
+        /[^a-z0-9]/gi,
+        "_"
+      ) +
+      "_Business_Assessment.txt";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+    showToast(
+      "Assessment report downloaded."
+    );
+
+  });
+
+
+/* ==========================================
+TOAST
+========================================== */
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+    toast.classList.remove("show");
+  },3000);
+
+}
+
+
+/* ==========================================
+YEAR
+========================================== */
+
+document.getElementById("year")
+  .textContent =
+    new Date().getFullYear();
+
+
+/* ==========================================
+INITIALIZE
+========================================== */
+
+calculateStock();
+calculatePayment();
+showStep(0);
+
+</script>
+
+</body>
+</html>
